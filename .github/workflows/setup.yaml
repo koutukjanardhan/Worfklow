@@ -1,23 +1,30 @@
 name: Caller Workflow
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      my_variable:
+        description: 'Variable to print'
+        required: true
 
 jobs:
-  call_another_workflow:
+  call_api_trigger_workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Run Another Workflow
+      - name: Run API Trigger Workflow
         uses: actions/checkout@v2
-      - name: Execute Another Workflow
-        run: |
-          # Execute the workflow file directly
-          # Replace 'path/to/another_workflow.yml' with the path to the workflow file you want to call
-          /.gihtub/worfflows/api_trigger.yaml
+      - name: Set Input Variable
+        id: set_input
+        run: echo "::set-output name=my_variable::${{ github.event.inputs.my_variable }}"
+
+      - name: Trigger API Trigger Workflow
+        uses: Workflow/.github/workflows/api_trigger.yaml
+        with:
+          my_variable: ${{ steps.set_input.outputs.my_variable }}
 
 
   job2:
-    needs: call_another_workflow
+    needs: call_api_trigger_workflow
     runs-on: ubuntu-latest
     steps:
       - name: Step 2
