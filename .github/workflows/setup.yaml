@@ -1,17 +1,25 @@
 name: Caller Workflow
 
 on:
-  workflow_dispatch: # This triggers the workflow manually
+  push:
+    branches:
+      - main
 
 jobs:
-  job1:
+  call_another_workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Step 1
-        run: echo "This is job 1"
+      - name: Run Another Workflow
+        uses: actions/checkout@v2
+      - name: Execute Another Workflow
+        run: |
+          # Execute the workflow file directly
+          # Replace 'path/to/another_workflow.yml' with the path to the workflow file you want to call
+          /.gihtub/worfflows/api_trigger.yaml
+
 
   job2:
-    needs: job1
+    needs: call_another_workflow
     runs-on: ubuntu-latest
     steps:
       - name: Step 2
