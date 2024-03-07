@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Trigger API Trigger Workflow
-        uses: ./.github/workflows/api_trigger.yml
+        uses: ./.github/workflows/api_trigger.yaml
         with:
           my_variable: ${{ github.event.inputs.my_variable }}
 
