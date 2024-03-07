@@ -1,7 +1,9 @@
 name: Caller Workflow
 
 on:
-  workflow_dispatch: # This triggers the workflow manually
+  push:
+    branches:
+      - main
 
 jobs:
   job1:
