@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       my_variable:
-        description: 'Variable to print'
+        description: 'Variable to pass'
         required: true
 
 jobs:
@@ -13,14 +13,11 @@ jobs:
     steps:
       - name: Run API Trigger Workflow
         uses: actions/checkout@v2
-      - name: Set Input Variable
-        id: set_input
-        run: echo "::set-output name=my_variable::${{ github.event.inputs.my_variable }}"
-
+      
       - name: Trigger API Trigger Workflow
-        uses: Workflow/.github/workflows/api_trigger.yaml
+        uses: ./.github/workflows/api_trigger.yml
         with:
-          my_variable: ${{ steps.set_input.outputs.my_variable }}
+          my_variable: ${{ github.event.inputs.my_variable }}
 
 
   job2:
